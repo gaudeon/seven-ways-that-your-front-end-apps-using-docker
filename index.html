@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="author" content="Travis Chase" />
+  <title>Seven ways that your Front End Apps win using Docker!</title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.min.css"/>
+    <style type="text/css">
+        code {
+            white-space: pre;
+        }
+        .reveal .slides section img {
+            border: none;
+        }
+        .reveal .slides section .checkmark {
+            background: none;
+            display: block;
+            position: relative;
+            float: right;
+            width: 48px;
+            height: 48px;
+        }
+    </style>
+    <link rel="stylesheet" href="reveal.js/css/theme/night.css" id="theme">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+    <!--[if lt IE 9]>
+    <script src="reveal.js/lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h2 class="title">Seven ways that your Front End Apps win using Docker!</h2>
+</section>
+
+<section>
+    <ul>
+        <li>Lightweight / Easy to Use
+        <li>Isolation
+        <li>Environmental Parity
+        <li>CI/CD
+        <li>Versioning
+        <li>Community Support
+        <li>Composition
+    </ul>
+</section>
+
+<section>
+    A recent challenge of mine...
+</section>
+
+<section>
+    I want a space for architecture diagrams that is...
+    <ul>
+        <li>versioned
+        <li>portable
+        <li>has built-in tooling
+        <li>hopefully free
+    </ul>
+</section>
+
+<section>
+   <a href="https://duckduckgo.com/?q=architecture+diagramming+tools" target="_blank">https://duckduckgo.com/?q=architecture+diagramming+tools</a> 
+</section>
+
+<section>
+    &lt;insert slide here to represent hours of searching&gt;<br> 
+    <img src="images/jawascript.jpg" style="border: none">
+</section>
+
+<section>
+    <a href="http://draw.io" target="_blank">draw.io</a>
+</section>
+
+<section>
+    <a href="https://github.com/jgraph/drawio" target="_blank">https://github.com/jgraph/drawio</a>
+</section>
+
+<section>
+    <h3>Docker</h3>
+<pre><code data-trim data-noescape>
+cp etc/docker/Dockerfile .
+docker build -t draw .
+docker run -d -p 8888:8080 draw
+</code></pre>
+    <small>Copied from <a href="https://github.com/jgraph/drawio/blob/master/etc/docker/README.md" target="_blank">https://github.com/jgraph/drawio/blob/master/etc/docker/README.md</a></small>
+    <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+    Travis' Dockerhub Theory™<br><br>
+    If there is a dockerfile for a thing then it is likely there is at least one docker hub repo for the thing.
+</section>
+
+<section>
+    <img src="images/dockerhubsearch.png"><br>
+    <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+    <pre>
+> docker pull fjudith/draw.io
+> docker run -it --rm --name="draw" -p 8080:8080 -p 8443:8443 fjudith/draw.io
+    </pre>
+    <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+    > docker ps<br>
+    <img src="images/dockerps.png"><br>
+    <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+    Okay... cool tool but what about saving diagrams locally?
+</section>
+
+<section>
+    &lt;insert slide here to represent hours of searching&gt;<br> 
+    <img src="images/javascriptfun.png" width="40%" height="40%">
+</section>
+
+<section>
+    draw.io has an embedded most and will listen for posted messages to the frames content window!
+</section>
+
+<section>
+    This sounds like a job for a client/server application!<br><br>
+    <img src="images/superjs.png">
+</section>
+
+<section>
+   docker-compose.yml
+   <pre>
+version: '3'
+services:
+  davinci-client:
+    build:
+      context: ./etc
+      dockerfile: Dockerfile-client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - ./diagrams:/diagrams
+    depends_on:
+      - drawio
+      - server
+    ...
+   </pre> 
+   <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+   docker-compose.yml
+   <pre>
+  ...
+  server:
+    build:
+      context: ./etc
+      dockerfile: Dockerfile-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - ./diagrams:/diagrams
+  ...
+   </pre> 
+</section>
+
+<section>
+   docker-compose.yml
+   <pre>
+  ...
+  drawio:
+    build:
+      context: ./etc
+      dockerfile: Dockerfile-drawio
+    ports:
+      - "8080:8080"
+   </pre> 
+</section>
+
+<section>
+    <pre><code>
+> docker-compose up -d
+> docker-compose down
+    </code></pre>
+    <img src="images/checkmark.png" class="checkmark">
+</section>
+
+<section>
+    Live Demo!
+</section>
+
+<section>
+    <h1 class="title">Thanks!</h1>
+    <h2 class="author">Travis Chase</h2>
+    <a href="http://github.com/gaudeon/seven-ways-that-your-front-end-apps-using-docker">http://github.com/gaudeon/seven-ways-that-your-front-end-apps-using-docker</a>
+</section>
+
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.min.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>
