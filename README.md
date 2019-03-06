@@ -8,6 +8,6 @@ This uses a docker image of reveal.js to serve the slides
 Execute ```make build``` to pull and the reveal.js docker image.
 
 # Running
-Execute ```make run``` to start a docker containe of reveal.js serving the slides in this project. 
+Execute ```make start``` to start a docker container of reveal.js serving the slides in this project. 
 
 Browse to http://127.0.0.1:8000 to view them.
