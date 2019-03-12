@@ -60,11 +60,16 @@
 </section>
 
 <section>
+    <small>Other kinds of things? (LXC/LXD, vagrant, etc)</small><br><br>
+    <div class="fragment">Use what works for you, abstractions are useful when they are useful!</div>
+</section>
+
+<section>
     A recent challenge of mine...
 </section>
 
 <section>
-    I want a space for architecture diagrams that is...
+    <small>I want a space for architecture diagrams that is...</small><br><br>
     <ul>
         <li>versioned
         <li>portable
@@ -102,7 +107,7 @@ docker run -d -p 8888:8080 draw
 </section>
 
 <section>
-    Travis' Dockerhub Theory™<br><br>
+    <small>Travis' Dockerhub Theory™</small><br><br>
     If there is a dockerfile for a thing then it is likely there is at least one docker hub repo for the thing.
 </section>
 
@@ -135,7 +140,8 @@ docker run -d -p 8888:8080 draw
 </section>
 
 <section>
-    draw.io has an embedded most and will listen for posted messages to the frames content window!
+    draw.io has an embedded mode!<br><br>
+    <small>It will listen for posted messages to the frames content window.</small>
 </section>
 
 <section>
@@ -205,6 +211,28 @@ services:
 
 <section>
     Live Demo!
+</section>
+
+<section>
+    CI/CD with Bamboo/Jenkins + In-House Systems<br><br>
+    <small><ol>
+        <li>Build Plan - Docker Plugin Task (change detection + transpile)
+        <li>Deploy Plan (approval + release)
+        <li>Package sharing service such as yum (store)
+        <li>System + Disk (store)
+        <li>Content delivery with something such as NGINX (cdn)
+    </ol></small>
+</section>
+
+<section>
+    CI/CD with AWS<br><br>
+    <small><ol>
+        <li>CodePipeline (change detection)
+        <li>SNS (approval)
+        <li>CodeBuild (transpile + release)
+        <li>S3 (store)
+        <li>CloudFront (cdn)
+    </ol></small>
 </section>
 
 <section>
